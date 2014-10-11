@@ -48,19 +48,25 @@ public class ActionFragment extends CardFragment {
         cardScrollView.setCardGravity(Gravity.BOTTOM);
         CardFrame cf = new CardFrame(getActivity());
         LinearLayout layout = new LinearLayout(getActivity());
-        layout.setOrientation(LinearLayout.HORIZONTAL);
+        layout.setOrientation(LinearLayout.VERTICAL);
 
         Button action = new Button(getActivity());
         action.setBackground(getResources().getDrawable(mIcon));
-
         LinearLayout.LayoutParams button_params = new LinearLayout.LayoutParams(
                 200,
                 200);
         button_params.gravity = Gravity.CENTER;
-
+        button_params.setMargins(0, -5, 0, -45);
 
         action.setLayoutParams(button_params);
+
+        TextView action_desc = new TextView(getActivity());
+        action_desc.setText(mTitle);
+        action_desc.setTextColor(getResources().getColor(R.color.black));
+
         layout.addView(action,0);
+        layout.addView(action_desc,1);
+
 
         cf.addView(layout);
         cardScrollView.addView(cf);
