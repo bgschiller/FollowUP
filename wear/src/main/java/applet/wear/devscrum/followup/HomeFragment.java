@@ -1,7 +1,9 @@
 package applet.wear.devscrum.followup;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.CardFrame;
 import android.support.wearable.view.CardScrollView;
@@ -15,6 +17,19 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.wearable.Asset;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataItemAsset;
+import com.google.android.gms.wearable.DataItemBuffer;
+import com.google.android.gms.wearable.PutDataRequest;
+import com.google.android.gms.wearable.Wearable;
+
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by DevScrum on 10/11/14.
  */
@@ -22,7 +37,7 @@ public class HomeFragment extends CardFragment{
     String mTitle;
     String mBody;
     int mIcon;
-
+    private GoogleApiClient mGoogleApiClient;
 
     static HomeFragment newInstance(String title, String body, int ic_res) {
         HomeFragment frag = new HomeFragment();
@@ -37,7 +52,9 @@ public class HomeFragment extends CardFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            if(getArguments() != null){
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity()).build();
+
+        if(getArguments() != null){
                 mTitle = getArguments().getString("title");
                 mBody = getArguments().getString("body");
                 mIcon = getArguments().getInt("icon");
@@ -50,6 +67,19 @@ public class HomeFragment extends CardFragment{
         cardScrollView.setCardGravity(Gravity.BOTTOM);
         CardFrame cf = new CardFrame(getActivity());
         FrameLayout layout = new FrameLayout(getActivity());
+
+
+        PendingResult<DataItemBuffer> results = Wearable.DataApi.getDataItems(mGoogleApiClient);
+        results.setResultCallback(new ResultCallback<DataItemBuffer>() {
+            @Override
+            public void onResult(DataItemBuffer dataItems) {
+                if (dataItems.getCount() != 0) {
+                    mTitle = dataItems.get(0).toString();
+                }
+
+                dataItems.release();
+            }
+        });
 
         Button chng_opp = new Button(getActivity());
         chng_opp.setBackground(getResources().getDrawable(mIcon));
@@ -83,5 +113,15 @@ public class HomeFragment extends CardFragment{
         cf.addView(layout);
         cardScrollView.addView(cf);
         return cardScrollView;
+    }
+
+    @Override
+    public void onStart(){
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onStop(){
+        mGoogleApiClient.disconnect();
     }
 }

@@ -4,5 +4,6 @@
     <string name="app_name">FollowUP</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="submit_to_salesforce">Submit to Salesforce</string>
 
 </resources>

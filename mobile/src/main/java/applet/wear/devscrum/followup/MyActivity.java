@@ -8,18 +8,28 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.wearable.PutDataMapRequest;
+
 
 public class MyActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my);
+        setContentView(R.layout.opportunity_fragment);
         FragmentManager fm = getFragmentManager();
-        Fragment fragment = fm.findFragmentById(R.id.opps_frag_list);
+        Fragment fragment = fm.findFragmentById(R.id.opportunity_frag_container);
+        if(fragment == null) {
+            fragment = new OpportunityFragment();
+            fm.beginTransaction()
+                    .add(R.id.opportunity_frag_container, fragment)
+                    .commit();
+        }
 
 
     }
+
+
 
 
     @Override

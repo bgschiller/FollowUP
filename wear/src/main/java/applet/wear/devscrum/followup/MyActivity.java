@@ -17,6 +17,8 @@ import android.support.wearable.view.GridViewPager;
 import android.support.wearable.view.WatchViewStub;
 import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+
 public class MyActivity extends Activity {
 
     private TextView mTextView;

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/opportunity_frag_container">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50sp"
+        android:layout_gravity="bottom"
+        android:text="@string/submit_to_salesforce"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="United Oil Corporation"
+        android:id="@+id/opportunity_title"
+        android:layout_gravity="center_horizontal|top" />
+
+    <TextView
+        android:layout_width="283dp"
+        android:layout_height="332dp"
+        android:text="New Text"
+        android:id="@+id/notes_body"
+        android:layout_gravity="center" />
+
+</FrameLayout>
