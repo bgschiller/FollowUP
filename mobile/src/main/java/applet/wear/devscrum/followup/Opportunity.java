@@ -17,7 +17,7 @@ public class Opportunity {
         return notes.get(id);
     }
 
-    public void setTitle(String name) { mTitle == name}
+    public void setTitle(String name) { mTitle = name;}
     public void addNote(String title){
         notes.add(title);
     }

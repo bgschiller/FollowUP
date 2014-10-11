@@ -24,7 +24,10 @@ public class OpportunityHandler {
     }
 
     public static OpportunityHandler get(Context c){
-
+        if( sOpportunityHandler == null) {
+            sOpportunityHandler = new OpportunityHandler(c.getApplicationContext());
+        }
+        return sOpportunityHandler;
     }
 
     public ArrayList<Opportunity> getOpps() {

@@ -30,16 +30,17 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
         int IconRes;
         int CardGravity = Gravity.BOTTOM;
         boolean ExpansionEnabled = true;
-        float ExpansionFactor = 1;
+        float ExpansionFactor = 10;
         int ExpansionDirection = CardFragment.EXPAND_DOWN;
 
-        public Page (int titleRes, int textRes, boolean expansion)
+        public Page (int titleRes, int textRes, boolean expansion, int gravity)
         {
             this(titleRes, textRes, 0);
             this.ExpansionEnabled = expansion;
+            this.CardGravity = gravity;
         }
 
-        public Page(int titleRes, int textRes, boolean expansion, float expansionFactor)
+        public Page(int titleRes, int textRes, boolean expansion, float expansionFactor, int gravity)
         {
             this(titleRes, textRes, 0);
             this.ExpansionEnabled = expansion;
@@ -63,9 +64,16 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
 
     // Create a static set of pages in a 2D array
     private final Page[][] PAGES = {
-            {new Page(R.string.opportunity_name, R.string.sample_body, R.drawable.ic_launcher,  Gravity.BOTTOM),
-            new Page(R.string.action_phone,  R.string.blank ,R.drawable.action_phone, Gravity.CENTER)},
-            {new Page(R.string.action_reply, R.string.blank, R.drawable.voice_search_sm, Gravity.BOTTOM)}
+            {
+            new Page(R.string.opportunity_name, R.string.sample_body, R.drawable.ic_launcher,  Gravity.BOTTOM),
+            new Page(R.string.action_phone,  R.string.blank ,R.drawable.action_phone, Gravity.CENTER)
+            },
+            {
+            new Page(R.string.tap_to_speak, R.string.blank, R.drawable.voice_search_sm, Gravity.BOTTOM),
+            new Page(R.string.opportunity_name, R.string.sample_response, true, Gravity.BOTTOM),
+            new Page(R.string.delete_button, R.string.blank, R.drawable.action_reply, Gravity.CENTER),
+            new Page(R.string.keep_button, R.string.blank, R.drawable.action_open, Gravity.CENTER )
+            }
     };
 
 
@@ -80,9 +88,7 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
             ActionFragment frag = new ActionFragment();
             frag = frag.newInstance(title, text, page.IconRes);
                 frag.setCardGravity(page.CardGravity);
-                frag.setExpansionEnabled(page.ExpansionEnabled);
-                frag.setExpansionDirection(page.ExpansionDirection);
-                frag.setExpansionFactor(page.ExpansionFactor);
+                frag.setExpansionEnabled(false);
                 return frag;
         }else{
             CardFragment frag = CardFragment.create(title, text, page.IconRes);
