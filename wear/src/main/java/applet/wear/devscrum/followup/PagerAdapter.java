@@ -65,7 +65,7 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
     // Create a static set of pages in a 2D array
     private final Page[][] PAGES = {
             {
-            new Page(R.string.opportunity_name, R.string.sample_body, R.drawable.ic_launcher,  Gravity.BOTTOM),
+            new Page(R.string.opportunity_name, R.string.sample_body, R.drawable.ic_launcher,  Gravity.TOP),
             new Page(R.string.action_phone,  R.string.blank ,R.drawable.action_phone, Gravity.CENTER)
             },
             {
@@ -84,7 +84,14 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
         String title = page.TitleRes != 0 ? mContext.getString(page.TitleRes) : null;
         String text = page.TextRes != 0 ? mContext.getString(page.TextRes) : null;
 
-        if (page.CardGravity == Gravity.CENTER) {
+        if ( page.CardGravity == Gravity.TOP){
+            HomeFragment frag = new HomeFragment();
+            frag = frag.newInstance(title, text, page.IconRes);
+            frag.setCardGravity(page.CardGravity);
+            frag.setExpansionEnabled(false);
+            return frag;
+        }
+        else if (page.CardGravity == Gravity.CENTER) {
             ActionFragment frag = new ActionFragment();
             frag = frag.newInstance(title, text, page.IconRes);
                 frag.setCardGravity(page.CardGravity);
@@ -92,6 +99,7 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
                 return frag;
         }else{
             CardFragment frag = CardFragment.create(title, text, page.IconRes);
+
                 frag.setCardGravity(page.CardGravity);
                 frag.setExpansionEnabled(page.ExpansionEnabled);
                 frag.setExpansionDirection(page.ExpansionDirection);

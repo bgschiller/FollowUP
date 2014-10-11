@@ -52,22 +52,13 @@ public class HomeFragment extends CardFragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity()).build();
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity()).addApi(Wearable.API).build();
 
         if(getArguments() != null){
                 mTitle = getArguments().getString("title");
                 mBody = getArguments().getString("body");
                 mIcon = getArguments().getInt("icon");
         }
-    }
-
-    @Override
-    public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        CardScrollView cardScrollView = new CardScrollView(getActivity());
-        cardScrollView.setCardGravity(Gravity.BOTTOM);
-        CardFrame cf = new CardFrame(getActivity());
-        FrameLayout layout = new FrameLayout(getActivity());
-
 
         PendingResult<DataItemBuffer> results = Wearable.DataApi.getDataItems(mGoogleApiClient);
         results.setResultCallback(new ResultCallback<DataItemBuffer>() {
@@ -75,45 +66,14 @@ public class HomeFragment extends CardFragment{
             public void onResult(DataItemBuffer dataItems) {
                 if (dataItems.getCount() != 0) {
                     mTitle = dataItems.get(0).toString();
+                    Log.w("data", mTitle);
                 }
 
                 dataItems.release();
             }
         });
-
-        Button chng_opp = new Button(getActivity());
-        chng_opp.setBackground(getResources().getDrawable(mIcon));
-
-
-        StringBuilder titleBuilder = new StringBuilder().insert(0, mTitle);
-        StringBuilder bodyBuilder = new StringBuilder().insert(0,mBody);
-        String titleDisplay = titleBuilder.toString();
-        String bodyDisplay = bodyBuilder.toString();
-        TextView titleTextView = new TextView(getActivity());
-        TextView bodyTextView = new TextView(getActivity());
-
-        titleTextView.setText(titleDisplay);
-        bodyTextView.setText(bodyDisplay);
-
-        titleTextView.setTextColor(getResources().getColor(R.color.black));
-        bodyTextView.setTextColor(getResources().getColor(R.color.black));
-
-        titleTextView.setAllCaps(true);
-        titleTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        titleTextView.setPadding(0,10,0,20);
-        bodyTextView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
-        bodyTextView.setPadding(0,50,0,20);
-
-        layout.addView(titleTextView, 0);
-        layout.addView(chng_opp, 1);
-        layout.addView(bodyTextView, 2);
-
-        cf.addView(layout);
-        cardScrollView.addView(cf);
-        return cardScrollView;
     }
+
 
     @Override
     public void onStart(){
@@ -123,5 +83,13 @@ public class HomeFragment extends CardFragment{
     @Override
     public void onStop(){
         mGoogleApiClient.disconnect();
+    }
+
+    @Override
+    public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.home_fragment_layout, container);
+        TextView tv = (TextView) view.findViewById(R.id.opportunity_title);
+        tv.setText(mTitle);
+        return view;
     }
 }
