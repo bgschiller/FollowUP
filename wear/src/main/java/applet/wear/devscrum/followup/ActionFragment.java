@@ -61,15 +61,20 @@ public class ActionFragment extends CardFragment {
         action.setLayoutParams(button_params);
 
         TextView action_desc = new TextView(getActivity());
+        LinearLayout.LayoutParams text_params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        text_params.gravity = Gravity.CENTER_HORIZONTAL;
+        action_desc.setLayoutParams(text_params);
         action_desc.setText(mTitle);
         action_desc.setTextColor(getResources().getColor(R.color.black));
 
         layout.addView(action,0);
         layout.addView(action_desc,1);
 
-
         cf.addView(layout);
         cardScrollView.addView(cf);
+        cardScrollView.setBackground(getResources().getDrawable(R.drawable.cloud_background));
 
         return cardScrollView;
     }
