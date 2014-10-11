@@ -30,6 +30,7 @@ public class OpportunityFragment extends Fragment {
         GoogleApiClient.Builder builder = new GoogleApiClient.Builder(getActivity());
         mGoogleApiClient = builder.addApi(Wearable.API).build();
 
+
     }
 
     @Override
