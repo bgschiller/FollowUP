@@ -13,10 +13,15 @@ import android.view.Gravity;
 public class PagerAdapter extends FragmentGridPagerAdapter {
 
     private final Context mContext;
+    public String mTitle = null;
 
     public PagerAdapter(Context ctx, FragmentManager fm) {
         super(fm);
         mContext = ctx;
+    }
+
+    public void addObject(String title){
+        mTitle = title;
     }
 
     static final int[] BG_IMAGES = new int[]{
@@ -62,6 +67,7 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
         }
     }
 
+
     // Create a static set of pages in a 2D array
     private final Page[][] PAGES = {
             {
@@ -85,11 +91,11 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
         String text = page.TextRes != 0 ? mContext.getString(page.TextRes) : null;
 
         if ( page.CardGravity == Gravity.TOP){
-            HomeFragment frag = new HomeFragment();
-            frag = frag.newInstance(title, text, page.IconRes);
+         HomeFragment frag = new HomeFragment();
+            frag = frag.newInstance(mTitle, text, page.IconRes);
             frag.setCardGravity(page.CardGravity);
             frag.setExpansionEnabled(false);
-            return frag;
+        return frag;
         }
         else if (page.CardGravity == Gravity.CENTER) {
             ActionFragment frag = new ActionFragment();
