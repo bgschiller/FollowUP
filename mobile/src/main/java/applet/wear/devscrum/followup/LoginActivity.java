@@ -30,7 +30,7 @@ public class LoginActivity extends Activity {
                 getString(R.string.preference_file_key), this.MODE_PRIVATE);
         String access_token = sharedPref.getString("SF_ACCESS_TOKEN","");
         if (access_token.length() != 0){
-            Intent send_to_main = new Intent(getApplicationContext(), MyActivity.class); //also send along the token
+            Intent send_to_main = new Intent(getApplicationContext(), OpportunityDetailActivity.class); //also send along the token
             startActivity(send_to_main);
         }
 
@@ -87,7 +87,7 @@ public class LoginActivity extends Activity {
                     editor.putString("SF_TOKEN_TYPE",query_params.get("token_type"));
                     editor.commit();
 
-                    Intent send_to_main = new Intent(getApplicationContext(), MyActivity.class); //also send along the token
+                    Intent send_to_main = new Intent(getApplicationContext(), OpportunityDetailActivity.class); //also send along the token
                     startActivity(send_to_main);
 
                 } catch (UnsupportedEncodingException e) {

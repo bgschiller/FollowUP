@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MyActivity extends FragmentActivity {
+public class OpportunityDetailActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class MyActivity extends FragmentActivity {
             String token = sharedPref.getString("SF_ACCESS_TOKEN","");
             if (! token.equals("")){
 
-                new DontCareHttpGet().execute("https://login.salesforce.com/services/oauth2/revoke?token="+token);
+                new DontCareHttpGet().execute("https://login.salesforce.com/services/oauth2/revoke?token=" + token);
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("SF_ACCESS_TOKEN", "");
