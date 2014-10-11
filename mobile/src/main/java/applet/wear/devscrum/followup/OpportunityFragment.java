@@ -28,7 +28,7 @@ public class OpportunityFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         GoogleApiClient.Builder builder = new GoogleApiClient.Builder(getActivity());
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity()).addApi().build();
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity()).addApi(Wearable.API).build();
 
     }
 
