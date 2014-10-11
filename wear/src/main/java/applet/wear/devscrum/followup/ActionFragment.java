@@ -49,27 +49,18 @@ public class ActionFragment extends CardFragment {
         CardFrame cf = new CardFrame(getActivity());
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.HORIZONTAL);
-        LinearLayout.LayoutParams spacer_params = new LinearLayout.LayoutParams(
-                0,
-                0, 2.0f);
-        LinearLayout.LayoutParams button_params = new LinearLayout.LayoutParams(
-                0,
-                LinearLayout.LayoutParams.WRAP_CONTENT, 6.0f);
-        //button_params.setMargins(20,20,20,20);
 
-
-
-        View spacerLeft = new View(getActivity());
-        View spacerRight = new View(getActivity());
         Button action = new Button(getActivity());
         action.setBackground(getResources().getDrawable(mIcon));
 
-        layout.addView(spacerLeft,0);
-        layout.addView(action,1);
-        layout.addView(spacerRight, 2);
-        spacerLeft.setLayoutParams(spacer_params);
-        spacerRight.setLayoutParams(spacer_params);
+        LinearLayout.LayoutParams button_params = new LinearLayout.LayoutParams(
+                200,
+                200);
+        button_params.gravity = Gravity.CENTER;
+
+
         action.setLayoutParams(button_params);
+        layout.addView(action,0);
 
         cf.addView(layout);
         cardScrollView.addView(cf);
