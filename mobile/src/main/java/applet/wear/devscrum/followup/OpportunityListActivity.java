@@ -2,6 +2,7 @@ package applet.wear.devscrum.followup;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -31,7 +31,6 @@ public class OpportunityListActivity extends Activity {
 
         ListArrayAdapter adapter =
                 new ListArrayAdapter(this, R.layout.list_item, mOpportunities);
-
         lv.setAdapter(adapter);
 
     }
@@ -39,7 +38,7 @@ public class OpportunityListActivity extends Activity {
     private class ListArrayAdapter extends ArrayAdapter<Opportunity> {
 
         int resource;
-        public ListArrayAdapter(Context context, int resource, List<Opportunity> objects) {
+        public ListArrayAdapter(Context context, int resource, ArrayList<Opportunity> objects) {
             super(context, resource, objects);
             this.resource = resource;
         }
@@ -63,7 +62,29 @@ public class OpportunityListActivity extends Activity {
             TextView oppText = (TextView)oppView.findViewById(R.id.firstLine);
             TextView amountText = (TextView)oppView.findViewById(R.id.amount);
             TextView contactText = (TextView)oppView.findViewById(R.id.contact);
-            image.setImageDrawable(getResources().getDrawable(R.drawable.salesforcereal));
+            if (opp.imageName == null) {
+    //pass
+            }else if (opp.imageName.equals("salesforce")) {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.salesforce));
+            }
+            else if (opp.imageName.equals("nike")) {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.nike));
+            }
+            else if (opp.imageName.equals("lego")) {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.lego));
+            }
+            else if (opp.imageName.equals("tesla")) {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.tesla));
+            }
+            else if (opp.imageName.equals("sprint")) {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.sprint));
+            }
+            else if (opp.imageName.equals("aperture")) {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.aperture));
+            }
+            else if (opp.imageName.equals("volkswagen")) {
+                image.setImageDrawable(getResources().getDrawable(R.drawable.volkswagen));
+            }
             oppText.setText(opp.mTitle);
             amountText.setText(opp.amount);
             contactText.setText(opp.contact);

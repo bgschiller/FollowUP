@@ -43,7 +43,7 @@ public class OpportunityHandler {
 
     private ArrayList<Opportunity> retrieve_data(){
         String soql_query = URLEncoder.encode("select Id, Name, Amount, latest_wrap_up__c, " +
-                    "latest_wrap_up__r.Follow_Up_Items__c, " +
+                    "latest_wrap_up__r.Follow_Up_Items__c, Image_Name__c, " +
                     "( SELECT Contact.Name FROM OpportunityContactRoles where IsPrimary = true limit 1) " +
                     "from Opportunity " +
                     "where latest_wrap_up__c != null or show_in_demo__c = 1");
@@ -97,7 +97,7 @@ public class OpportunityHandler {
             Opportunity opp = new Opportunity();
             opp.mTitle = rec.getString("Name");
             opp.oId = rec.getString("Id");
-            opp.amount = rec.getString("Amount");
+            opp.amount = "$" + String.valueOf(rec.getInt("Amount") / 1000) + "K" ;
             if ( ! rec.has("Follow_Up_Items__c")){
                 opp.notes = null;
             } else {
@@ -112,7 +112,7 @@ public class OpportunityHandler {
                         .getJSONObject("Contact")
                         .getString("Name");
             }
-            if ( ! rec.has("Image_Name__c")){
+            if ( rec.has("Image_Name__c")){
                 opp.imageName = rec.getString("Image_Name__c");
             } else {
                 opp.imageName = null;
