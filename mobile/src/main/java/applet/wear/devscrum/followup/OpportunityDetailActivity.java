@@ -42,6 +42,11 @@ public class OpportunityDetailActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        /*hax*/
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         Intent i = getIntent();
         opp = Opportunity.fromString(i.getStringExtra("OPP"));
 
