@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -25,6 +26,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -70,17 +72,20 @@ public class OpportunityDetailActivity extends FragmentActivity {
         @Override
         protected Object doInBackground(Object[] data) {
             HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = null;
             try {
                 if (data.length == 1) {
                     // Execute HTTP Get Request
                     HttpGet revoke_request = new HttpGet((String) data[0]);
-                    HttpResponse response = httpclient.execute(revoke_request);
-                    Log.i("No1Curr", response.toString());
+                    response = httpclient.execute(revoke_request);
                 } else if (data.length == 2) {
                     HttpPost post_request = new HttpPost((String) data[0]);
                     post_request.setEntity(new UrlEncodedFormEntity((ArrayList<NameValuePair>) data[1]));
-                    HttpResponse response = httpclient.execute((post_request));
+                    response = httpclient.execute((post_request));
                 }
+                HttpEntity entity = response.getEntity();
+                Log.i("No1Curr, but",EntityUtils.toString(entity, "utf-8"))
+
             } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
