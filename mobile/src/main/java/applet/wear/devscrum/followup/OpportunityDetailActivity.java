@@ -49,6 +49,8 @@ public class OpportunityDetailActivity extends FragmentActivity {
         StrictMode.setThreadPolicy(policy);
 
 
+        OpportunityHandler oh = new OpportunityHandler(this);
+
     }
 
 
