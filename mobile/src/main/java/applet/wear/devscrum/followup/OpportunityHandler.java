@@ -36,9 +36,11 @@ public class OpportunityHandler {
     private ArrayList<Opportunity> retrieve_data(){
         String soql_query = null;
         try {
-            soql_query = URLEncoder.encode("select Id, Name, latest_wrap_up__c, Amount " +
+            soql_query = URLEncoder.encode("select Id, Name, Amount, latest_wrap_up__c, " +
+                    "latest_wrap_up__r.Follow_Up_Items__c, " +
+                    "( SELECT Contact.Name FROM OpportunityContactRoles where IsPrimary = true limit 1) " +
                     "from Opportunity " +
-                    "where latest_wrap_up__c != null or show_in_demo__c = 1", "utf-8");
+                    "where latest_wrap_up__c != null or show_in_demo__c = 1");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
