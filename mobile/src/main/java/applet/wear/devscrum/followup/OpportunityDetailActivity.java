@@ -26,6 +26,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -89,7 +90,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
             mBound = false;
         }
     }
-/*
+
     public void submitNote(String contents){
         SharedPreferences sharedPref = getSharedPreferences(
                 getString(R.string.preference_file_key), MODE_PRIVATE);
@@ -100,10 +101,12 @@ public class OpportunityDetailActivity extends FragmentActivity {
         }
         String url = instance_url + "/services/data/v31.0/sobjects/Wrap_Up__c/";
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-
-        new No1CurrHttpGet().execute(url);//, //ArrayList<namevaluepair>);
+        params.add(new BasicNameValuePair("Body",contents));
+        params.add(new BasicNameValuePair("Title","wrapUp"));
+        params.add(new BasicNameValuePair("RelatedId", opp.oid));
+        new No1CurrHttpGet().execute(url, params);
     }
-*/
+
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override
