@@ -1,6 +1,5 @@
 package applet.wear.devscrum.followup;
 
-import android.app.Fragment;
 import android.app.ListFragment;
 import android.os.Bundle;
 

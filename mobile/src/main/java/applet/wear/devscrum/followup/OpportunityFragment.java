@@ -1,9 +1,7 @@
 package applet.wear.devscrum.followup;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +13,6 @@ import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
-
-import org.w3c.dom.Text;
 
 /**
  * Created by DevScrum on 10/11/14.

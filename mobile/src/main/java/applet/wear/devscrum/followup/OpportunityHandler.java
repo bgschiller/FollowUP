@@ -1,6 +1,5 @@
 package applet.wear.devscrum.followup;
 
-import android.app.ListFragment;
 import android.content.Context;
 
 import java.util.ArrayList;

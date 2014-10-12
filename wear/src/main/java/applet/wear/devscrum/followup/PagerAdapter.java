@@ -13,11 +13,16 @@ import android.view.Gravity;
 public class PagerAdapter extends FragmentGridPagerAdapter {
 
     private final Context mContext;
-    public String mTitle = null;
+    public String mTitle = "";
 
     public PagerAdapter(Context ctx, FragmentManager fm) {
         super(fm);
         mContext = ctx;
+    }
+
+    public PagerAdapter(Context ctx, FragmentManager fm, String title){
+        this(ctx, fm);
+        mTitle = title;
     }
 
     public void addObject(String title){
@@ -87,25 +92,23 @@ public class PagerAdapter extends FragmentGridPagerAdapter {
     @Override
     public Fragment getFragment(int row, int col) {
         Page page = PAGES[row][col];
-        String title = page.TitleRes != 0 ? mContext.getString(page.TitleRes) : null;
-        String text = page.TextRes != 0 ? mContext.getString(page.TextRes) : null;
+        String title = page.TitleRes != 0 ? mContext.getString(page.TitleRes) : "";
+        String text = page.TextRes != 0 ? mContext.getString(page.TextRes) : "";
 
-        if ( page.CardGravity == Gravity.TOP){
-         HomeFragment frag = new HomeFragment();
-            frag = frag.newInstance(mTitle, text, page.IconRes);
-            frag.setCardGravity(page.CardGravity);
-            frag.setExpansionEnabled(false);
-        return frag;
-        }
-        else if (page.CardGravity == Gravity.CENTER) {
+        if (page.CardGravity == Gravity.CENTER) {
             ActionFragment frag = new ActionFragment();
             frag = frag.newInstance(title, text, page.IconRes);
                 frag.setCardGravity(page.CardGravity);
                 frag.setExpansionEnabled(false);
                 return frag;
         }else{
-            CardFragment frag = CardFragment.create(title, text, page.IconRes);
 
+            CardFragment frag;
+            if(page.CardGravity == Gravity.CENTER) {
+               frag = CardFragment.create(mTitle, text, page.IconRes);
+            }else {
+               frag = CardFragment.create(title, text, page.IconRes);
+            }
                 frag.setCardGravity(page.CardGravity);
                 frag.setExpansionEnabled(page.ExpansionEnabled);
                 frag.setExpansionDirection(page.ExpansionDirection);

@@ -19,8 +19,13 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     wearApp project(':wear')
     compile 'com.google.android.gms:play-services-wearable:+'
+    compile 'com.google.apis:google-api-services-androidpublisher:v2-rev8-1.19.0'
 }

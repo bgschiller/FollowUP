@@ -1,11 +1,9 @@
 package applet.wear.devscrum.followup;
 
 import android.app.Activity;
-
+import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.wearable.view.GridViewPager;
-import android.support.wearable.view.WatchViewStub;
 import android.util.Log;
 import android.widget.TextView;
 
@@ -16,7 +14,7 @@ import com.google.android.gms.wearable.DataItemBuffer;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.Wearable;
 
-public class MyActivity extends Activity {
+public class LoadActivity extends Activity {
 
     private TextView mTextView;
     private GoogleApiClient mGoogleApiClient;
@@ -27,7 +25,7 @@ public class MyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my);
         mGoogleApiClient = new GoogleApiClient.Builder(this).addApi(Wearable.API).build();
-        final GridViewPager pager = (GridViewPager) findViewById(R.id.pager);
+
 
         PendingResult<DataItemBuffer> results = Wearable.DataApi.getDataItems(mGoogleApiClient);
         results.setResultCallback(new ResultCallback<DataItemBuffer>() {
@@ -38,15 +36,16 @@ public class MyActivity extends Activity {
                     DataMapItem dataMapItem = DataMapItem.fromDataItem(dataItems.get(0));
                     mTitle = dataMapItem.getDataMap().getString("opp_name");
                     dataItems.release();
+                    Log.w("logging", mTitle);
+
+                    Intent dataLoader = new Intent(getApplicationContext(), MainActivity.class);
+                    dataLoader.putExtra("opps", mTitle);
 
                 }
-                    Log.w("logging", mTitle);
-                    PagerAdapter adapter = new PagerAdapter(getApplicationContext(), getFragmentManager());
-                    adapter.addObject(mTitle);
-                    pager.setAdapter(adapter );
 
             }
         });
+
 
 
 
