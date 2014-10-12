@@ -1,58 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp">
+    android:layout_height="100dp"
+    android:background="@android:color/white"
+    android:orientation="horizontal"
+    android:paddingTop="5px">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"></LinearLayout>
 
     <ImageView
         android:id="@+id/icon"
-        android:layout_width="180px"
-        android:layout_height="140px"
-        android:layout_marginTop="20px"
-        android:layout_marginLeft="20px"
+        android:layout_width="100dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="5dp"
         android:contentDescription="TODO"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/ic_launcher"
+        android:layout_gravity="left"/>
 
-    <TextView
-        android:id="@+id/firstLine"
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading"
-        android:layout_marginLeft="220px"
-        android:layout_marginTop="30px"
-        android:focusable="false"
-        android:clickable="true"
-        android:textSize="20sp"
-        android:textColor="@android:color/background_dark" />
+        android:layout_height="match_parent"
+        android:layout_marginLeft="110dp"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:layout_gravity="start">
+
+        <TextView
+            android:id="@+id/firstLine"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Loading"
+            android:focusable="false"
+            android:clickable="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/background_dark"
+            android:layout_weight=".5"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="-20dp"/>
+
+        <TextView
+            android:id="@+id/contact"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Loading"
+            android:focusable="false"
+            android:clickable="true"
+            android:textSize="20sp"
+            android:textColor="@android:color/background_dark"
+            android:layout_weight=".5"/>
+
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/amount"
-        android:layout_width="200px"
-        android:layout_height="wrap_content"
-        android:text="Loading"
-        android:layout_marginLeft="540px"
-        android:layout_marginTop="30px"
-        android:focusable="false"
-        android:clickable="true"
-        android:textSize="20sp"
-        android:gravity="right"
-        android:textColor="#70DB95"
-        android:background="@android:color/white" />
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Loading"
+            android:focusable="false"
+            android:clickable="true"
+            android:textSize="20sp"
+            android:textColor="#70DB95"
+            android:background="@android:color/white"
+            android:layout_gravity="right"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="10dp"/>
 
-    <TextView
-        android:id="@+id/contact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loading"
-        android:layout_marginLeft="220px"
-        android:layout_marginTop="90px"
-        android:focusable="false"
-        android:clickable="true"
-        android:textSize="16sp"
-        android:textColor="@android:color/background_dark" />
-
-</RelativeLayout>
+</FrameLayout>

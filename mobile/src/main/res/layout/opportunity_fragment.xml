@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="50sp"
         android:layout_gravity="bottom"
-        android:id="@+id/submit_to_salesforce"
-        android:text="@string/submit_to_salesforce"/>
+        android:background="@drawable/salesforce_button"
+        android:id="@+id/submit_to_salesforce"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,6 +18,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Walmart Supercenters"
         android:id="@+id/opportunity_title"
+        android:layout_marginTop="20sp"
         android:layout_gravity="center_horizontal|top" />
 
     <EditText
@@ -26,6 +27,9 @@
         android:text="Notes: "
         android:id="@+id/notes_body"
         android:gravity="top"
-        android:layout_marginTop="50sp"/>
+        android:layout_marginTop="50sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:background="@android:drawable/editbox_background_normal"/>
 
 </FrameLayout>
