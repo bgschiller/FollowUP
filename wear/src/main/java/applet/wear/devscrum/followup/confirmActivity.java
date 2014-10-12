@@ -3,7 +3,9 @@ package applet.wear.devscrum.followup;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.wearable.activity.ConfirmationActivity;
 import android.support.wearable.view.DelayedConfirmationView;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -72,6 +74,10 @@ public class confirmActivity extends Activity implements DelayedConfirmationView
                 });
             }
         }).start();
+        Log.d("text", "Message sending!");
+        Intent newIntent = new Intent(this, MainActivity.class);
+        startActivity(newIntent);
+
     }
 
     @Override

@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.CardFrame;
-import android.support.wearable.view.DelayedConfirmationView;
+import android.support.wearable.view.CardScrollView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -53,29 +53,42 @@ public class HomeFragment extends CardFragment {
     @Override
     public View onCreateContentView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        TextView title_tv = new TextView(getActivity());
-        title_tv.setText(title);
-        title_tv.setTextColor(getResources().getColor(R.color.black));
-        title_tv.setTextSize(18);
-        TextView body_tv = new TextView(getActivity());
-        body_tv.setText(text);
-        title_tv.setTextColor(getResources().getColor(R.color.black));
-        title_tv.setTextSize(12);
-
+        CardScrollView cardScrollView = new CardScrollView(getActivity());
+        cardScrollView.setCardGravity(Gravity.BOTTOM);
+        CardFrame cf = new CardFrame(getActivity());
         LinearLayout layout = new LinearLayout(getActivity());
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.addView(title_tv);
-        layout.addView(body_tv);
 
-        CardFrame cf = new CardFrame(getActivity());
-        CardFrame.LayoutParams cf_params = new CardFrame.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        cf_params.height = 250;
-        cf.setLayoutParams(cf_params);
+        Button action = new Button(getActivity());
+        action.setBackground(getResources().getDrawable(R.drawable.ic_wrap_title));
+        LinearLayout.LayoutParams button_params = new LinearLayout.LayoutParams(
+                200,
+                100);
+        button_params.gravity = Gravity.CENTER;
+        button_params.setMargins(0, 40, 0, 0);
+
+
+        action.setLayoutParams(button_params);
+
+        TextView action_desc = new TextView(getActivity());
+        LinearLayout.LayoutParams text_params = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        text_params.gravity = Gravity.CENTER_HORIZONTAL;
+        action_desc.setLayoutParams(text_params);
+        action_desc.setText(title);
+        action_desc.setTextColor(getResources().getColor(R.color.black));
+        action_desc.setTextSize(20);
+
+        layout.addView(action,0);
+        layout.addView(action_desc,1);
+
         cf.addView(layout);
+        cardScrollView.addView(cf);
+        cardScrollView.setExpansionFactor(1);
+        //cardScrollView.setBackgroundColor(getResources().getColor(R.color.red));
 
-        View v = cf;
+        View v = cardScrollView;
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,8 +98,6 @@ public class HomeFragment extends CardFragment {
 
         return v;
     }
-
-
     // Create an intent that can start the Speech Recognizer activity
     private void displaySpeechRecognizer() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);

@@ -4,14 +4,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+
     <android.support.wearable.view.DelayedConfirmationView
         android:id="@+id/delayed_confirm"
-        android:layout_height="40dp"
-        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_width="100dp"
         android:src="@drawable/ic_repeat"
+        android:layout_gravity="center"
+        android:layout_marginTop="-10sp"
         app:circle_border_color="@color/red"
-        app:circle_border_width="4dp"
-        app:circle_radius="16dp">
-
+        app:circle_border_width="5dp"
+        app:circle_radius="40dp">
     </android.support.wearable.view.DelayedConfirmationView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Undo?"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="20sp"
+        android:textColor="@color/white"
+        android:textSize="30dp"/>
 </FrameLayout>
