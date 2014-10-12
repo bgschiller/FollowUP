@@ -21,7 +21,7 @@ import java.io.IOException;
 
 
 public class OpportunityDetailActivity extends FragmentActivity {
-
+    public Opportunity opp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +35,9 @@ public class OpportunityDetailActivity extends FragmentActivity {
                     .commit();
         }
 
-
-        OpportunityHandler oh = new OpportunityHandler(this);
-
+        Intent i = getIntent();
+        opp = Opportunity.fromString(i.getStringExtra("OPP"));
+        
     }
 
 
