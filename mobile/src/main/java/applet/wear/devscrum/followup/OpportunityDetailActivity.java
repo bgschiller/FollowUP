@@ -68,58 +68,6 @@ public class OpportunityDetailActivity extends FragmentActivity {
         return true;
     }
 
-    private class No1CurrHttpGet extends AsyncTask {
-        @Override
-        protected Object doInBackground(Object[] data) {
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpResponse response = null;
-            try {
-                if (data.length == 1) {
-                    // Execute HTTP Get Request
-                    HttpGet revoke_request = new HttpGet((String) data[0]);
-                    response = httpclient.execute(revoke_request);
-                } else if (data.length == 2) {
-                    HttpPost post_request = new HttpPost((String) data[0]);
-                    post_request.setEntity(new UrlEncodedFormEntity((ArrayList<NameValuePair>) data[1]));
-                    response = httpclient.execute((post_request));
-                }
-                HttpEntity entity = response.getEntity();
-                Log.i("No1Curr, but",EntityUtils.toString(entity, "utf-8"))
-
-            } catch (java.io.IOException e) {
-                e.printStackTrace();
-            }
-        return null;
-        }
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_logout) {
-            SharedPreferences sharedPref = this.getSharedPreferences(
-                    getString(R.string.preference_file_key), this.MODE_PRIVATE);
-
-            String token = sharedPref.getString("SF_ACCESS_TOKEN", "");
-            if (!token.equals("")) {
-
-                new No1CurrHttpGet().execute("https://login.salesforce.com/services/oauth2/revoke?token=" + token);
-
-                SharedPreferences.Editor editor = sharedPref.edit();
-                editor.putString("SF_ACCESS_TOKEN", "");
-                editor.commit();
-
-            }
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @Override
     protected void onStart(){
         super.onStart();
@@ -157,5 +105,60 @@ public class OpportunityDetailActivity extends FragmentActivity {
             mBound = false;
         }
     };
+
+
+    public class No1CurrHttpGet extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] data) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = null;
+            try {
+                if (data.length == 1) {
+                    // Execute HTTP Get Request
+                    HttpGet revoke_request = new HttpGet((String) data[0]);
+                    response = httpclient.execute(revoke_request);
+                } else if (data.length == 2) {
+                    HttpPost post_request = new HttpPost((String) data[0]);
+                    post_request.setEntity(new UrlEncodedFormEntity((ArrayList<NameValuePair>) data[1]));
+                    response = httpclient.execute((post_request));
+                }
+                HttpEntity entity = response.getEntity();
+                Log.i("No1Curr, but", EntityUtils.toString(entity, "utf-8"));
+
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            SharedPreferences sharedPref = this.getSharedPreferences(
+                    getString(R.string.preference_file_key), this.MODE_PRIVATE);
+
+            String token = sharedPref.getString("SF_ACCESS_TOKEN", "");
+            if (!token.equals("")) {
+
+                new No1CurrHttpGet().execute("https://login.salesforce.com/services/oauth2/revoke?token=" + token);
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("SF_ACCESS_TOKEN", "");
+                editor.commit();
+
+            }
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
 
