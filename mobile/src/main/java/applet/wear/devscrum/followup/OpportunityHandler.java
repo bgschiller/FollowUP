@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
 
+import com.google.api.client.json.Json;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -13,8 +15,14 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
+
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -34,16 +42,11 @@ public class OpportunityHandler {
 
 
     private ArrayList<Opportunity> retrieve_data(){
-        String soql_query = null;
-        try {
-            soql_query = URLEncoder.encode("select Id, Name, Amount, latest_wrap_up__c, " +
+        String soql_query = URLEncoder.encode("select Id, Name, Amount, latest_wrap_up__c, " +
                     "latest_wrap_up__r.Follow_Up_Items__c, " +
                     "( SELECT Contact.Name FROM OpportunityContactRoles where IsPrimary = true limit 1) " +
                     "from Opportunity " +
                     "where latest_wrap_up__c != null or show_in_demo__c = 1");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
 
 
         SharedPreferences sharedPref = mAppContext.getSharedPreferences(
@@ -72,8 +75,50 @@ public class OpportunityHandler {
 
         Log.i("OpportunityHandler", result);
 
-        return null;
+        try {
+            JSONObject res = new JSONObject(result);
+            if (res.has("message")){
+                mAppContext.startActivity(new Intent(mAppContext, LoginActivity.class));
+                return null;
+            } else {
+                return process_json(res);
+            }
+        } catch (JSONException e){
+            e.printStackTrace();
+            return null;
+        }
     }
+
+    private ArrayList<Opportunity> process_json(JSONObject tlo) throws JSONException {
+        ArrayList<Opportunity> retval = new ArrayList<Opportunity>(tlo.getInt("totalSize"));
+        JSONArray records = tlo.getJSONArray("records");
+        for (int ix=0; ix < records.length(); ix++){
+            JSONObject rec = records.getJSONObject(ix);
+            Opportunity opp = new Opportunity();
+            opp.mTitle = rec.getString("Name");
+            opp.oId = rec.getString("Id");
+            opp.amount = rec.getString("Amount");
+            if ( ! rec.has("Follow_Up_Items__c")){
+                opp.notes = null;
+            } else {
+                opp.notes = rec.getString("Follow_Up_Items__c");
+            }
+            if( rec.isNull("OpportunityContactRoles")){
+                opp.contact = "";
+            } else {
+                opp.contact = rec.getJSONObject("OpportunityContactRoles")
+                        .getJSONArray("records")
+                        .getJSONObject(0)
+                        .getJSONObject("Contact")
+                        .getString("Name");
+            }
+            retval.add(opp);
+        }
+        return retval;
+
+    }
+
+
     public static OpportunityHandler get(Context c){
         if( sOpportunityHandler == null) {
             sOpportunityHandler = new OpportunityHandler(c.getApplicationContext());
