@@ -15,7 +15,9 @@ import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
+import com.google.common.base.Charsets;
 
+import java.nio.charset.Charset;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,7 +45,6 @@ public class confirmActivity extends Activity implements DelayedConfirmationView
 
         mDelayedView = (DelayedConfirmationView) findViewById(R.id.delayed_confirm);
         mDelayedView.setListener(this);
-        initGoogleApiClient();
         // Two seconds to cancel the action
         mDelayedView.setTotalTimeMs(2000);
         // Start the timer
@@ -53,13 +54,8 @@ public class confirmActivity extends Activity implements DelayedConfirmationView
     @Override
     public void onTimerFinished(View v) {
         //User didn't cancel
-        Intent intent = new Intent(this, ConfirmationActivity.class);
-        intent.putExtra(ConfirmationActivity.EXTRA_ANIMATION_TYPE,
-                ConfirmationActivity.SUCCESS_ANIMATION);
-        intent.putExtra(ConfirmationActivity.EXTRA_MESSAGE,
-                "Message Sent");
-        startActivity(intent);
         sendMessage("/text_body", body);
+
     }
 
     @Override
@@ -92,11 +88,24 @@ public class confirmActivity extends Activity implements DelayedConfirmationView
                             client.disconnect();
                         }
                     }).start();
+
+                 if (nodeId != null) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            client.blockingConnect();
+                            Wearable.MessageApi.sendMessage(client, nodeId, path, text.getBytes(Charsets.UTF_8));
+                            client.disconnect();
+                            backToMain();
+                        }
+                    }).start();
+                }
     }
 
     public void backToMain(){
         Intent newIntent = new Intent(this, MainActivity.class);
         startActivity(newIntent);
+        this.finish();
     }
 
     @Override
