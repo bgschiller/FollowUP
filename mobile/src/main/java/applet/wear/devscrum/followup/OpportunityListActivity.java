@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,6 +20,16 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,5 +127,64 @@ public class OpportunityListActivity extends Activity {
             return oppView;
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.my, menu);
+        return true;
+    }
+
+    public class No1CurrHttpGet extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] data) {
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpResponse response = null;
+            try {
+                if (data.length == 1) {
+                    // Execute HTTP Get Request
+                    HttpGet revoke_request = new HttpGet((String) data[0]);
+                    response = httpclient.execute(revoke_request);
+                } else if (data.length == 2) {
+                    HttpPost post_request = new HttpPost((String) data[0]);
+                    post_request.setEntity(new UrlEncodedFormEntity((ArrayList<NameValuePair>) data[1]));
+                    response = httpclient.execute((post_request));
+                }
+                HttpEntity entity = response.getEntity();
+                Log.i("No1Curr, but", EntityUtils.toString(entity, "utf-8"));
+
+            } catch (java.io.IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_logout) {
+            SharedPreferences sharedPref = this.getSharedPreferences(
+                    getString(R.string.preference_file_key), this.MODE_PRIVATE);
+
+            String token = sharedPref.getString("SF_ACCESS_TOKEN", "");
+            if (!token.equals("")) {
+
+                new No1CurrHttpGet().execute("https://login.salesforce.com/services/oauth2/revoke?token=" + token);
+
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("SF_ACCESS_TOKEN", "");
+                editor.commit();
+
+            }
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
