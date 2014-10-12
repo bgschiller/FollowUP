@@ -16,11 +16,26 @@ public class OpportunityHandler {
     private OpportunityHandler(Context appContext) {
         mAppContext = appContext;
         mOpportunities = new ArrayList<Opportunity>();
-        for(int i = 0; i < 100; i ++){
-            Opportunity o = new Opportunity();
-            o.setTitle("Opportunity #: " + i);
-            mOpportunities.add(o);
-        }
+        Opportunity salesforce = new Opportunity();
+        salesforce.mTitle = "Salesforce";
+        salesforce.imageName = "salesforce";
+        salesforce.amount = "$1.6M";
+        mOpportunities.add(salesforce);
+        Opportunity samsung = new Opportunity();
+        samsung.mTitle = "Samsung";
+        samsung.imageName = "samsung";
+        samsung.amount = "$3.4M";
+        mOpportunities.add(samsung);
+        Opportunity bitbucket = new Opportunity();
+        bitbucket.mTitle = "Bitbucket";
+        bitbucket.imageName = "bitbucket";
+        bitbucket.amount = "$2.7M";
+        mOpportunities.add(bitbucket);
+        Opportunity microsoft = new Opportunity();
+        microsoft.mTitle = "Microsoft";
+        microsoft.imageName = "microsoft";
+        microsoft.amount = "$1.9M";
+        mOpportunities.add(microsoft);
     }
 
     public static OpportunityHandler get(Context c){
@@ -36,7 +51,7 @@ public class OpportunityHandler {
 
     public Opportunity getOpportunity(String name){
         for ( Opportunity o: mOpportunities){
-            if ( o.getTitle().equals(name)){
+            if ( o.mTitle.equals(name)){
                 return o;
             }
         }

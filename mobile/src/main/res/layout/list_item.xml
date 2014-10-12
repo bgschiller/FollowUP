@@ -1,17 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="100dp"
     android:orientation="vertical">
 
-    <TextView android:id="@+id/text1"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/firstLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:focusable="false"
+        android:clickable="true"
+        android:textSize="24sp"
+        android:layout_marginLeft="200px"
+        android:layout_marginTop="30px"
+        android:textColor="@android:color/background_dark"
+        android:background="@android:color/white" />
 
-    <TextView android:id="@+id/text2"
-        android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="200px"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:focusable="false"
+        android:clickable="true"
+        android:textSize="24sp"
+        android:layout_marginLeft="500px"
+        android:layout_marginTop="-58px"
+        android:gravity="right"
+        android:textColor="#76E39C"
+        android:background="@android:color/white" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="180px"
+        android:layout_height="140px"
+        android:layout_marginLeft="10px"
+        android:layout_marginBottom="30px"
+        android:layout_marginTop="-55px"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_launcher" />
+
 </LinearLayout>
