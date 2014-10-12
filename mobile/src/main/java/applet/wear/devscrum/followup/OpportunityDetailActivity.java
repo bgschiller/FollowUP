@@ -35,10 +35,6 @@ public class OpportunityDetailActivity extends FragmentActivity {
                     .commit();
         }
 
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                .permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
 
         OpportunityHandler oh = new OpportunityHandler(this);
 

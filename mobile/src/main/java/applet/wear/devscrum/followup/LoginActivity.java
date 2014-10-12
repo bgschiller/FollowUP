@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,12 @@ public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /*hax*/
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         String reqUrl = "https://login.salesforce.com/services/oauth2/authorize?response_type=token&display=touch";
         String consumerKey = "3MVG9xOCXq4ID1uH.95Vnw29mOTYdinLkKU9e75shLNu.5pQqoOaExNJsipGWBTi8w8qdIAqtNX88iaKgoscR";
 
