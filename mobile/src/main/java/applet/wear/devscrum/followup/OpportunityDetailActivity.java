@@ -144,7 +144,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
             JSONStringer vm = new JSONStringer().object()
                     .key("Body").value(currentNotes)
                     .key("Title").value("wrapUp Note")
-                    .key("RelatedId").value(opp.oId)
+                    .key("ParentId").value(opp.oId)
                     .endObject();
             StringEntity entity = new StringEntity(vm.toString());
             new No1CurrHttpGet().execute(url, access_token, entity);
