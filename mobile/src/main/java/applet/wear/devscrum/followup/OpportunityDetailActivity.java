@@ -44,7 +44,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
     MyReceiver myReceiver;
     boolean mBound = false;
     public Opportunity opp;
-    String currentNotes;
+    String currentNotes = "";
     byte[] datapassed;
 
 
@@ -80,8 +80,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
         EditText et = (EditText) this.findViewById(R.id.notes_body);
         StringBuilder sb = new StringBuilder();
         sb.append(currentNotes);
-        sb.append("\n - ");
-        sb.append(s);
+        sb.append(" - "+ s + "\n");
         currentNotes = sb.toString();
         et.setText(sb.toString());
 
@@ -103,6 +102,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
         intentFilter.addAction(ListenService.MESSAGE_RECEIVED);
         registerReceiver(myReceiver, intentFilter);
         Intent intent = new Intent(this, ListenService.class);
+        startService(intent);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 
 
@@ -130,7 +130,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
         params.add(new BasicNameValuePair("Body",contents));
         params.add(new BasicNameValuePair("Title","wrapUp"));
-        params.add(new BasicNameValuePair("RelatedId", opp.oid));
+        params.add(new BasicNameValuePair("RelatedId", opp.oId));
         new No1CurrHttpGet().execute(url, params);
     }
 
@@ -158,8 +158,10 @@ public class OpportunityDetailActivity extends FragmentActivity {
         public void onReceive(Context arg0, Intent arg1) {
             // TODO Auto-generated method stub
             showToast("Note Recieved");
-            datapassed = arg1.getByteArrayExtra("Message Received");
-            updateNotes(datapassed);
+            datapassed = arg1.getByteArrayExtra("messageEvent");
+            if(datapassed != null) {
+                updateNotes(datapassed);
+            }
         }
     }
 

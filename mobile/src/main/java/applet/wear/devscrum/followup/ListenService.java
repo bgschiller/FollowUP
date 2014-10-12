@@ -36,6 +36,7 @@ public class ListenService extends WearableListenerService {
         Intent intent = new Intent();
         intent.setAction(MESSAGE_RECEIVED);
         intent.putExtra("messageEvent", messageEvent.getData());
+        sendBroadcast(intent);
 
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "Message: " + messageEvent);
