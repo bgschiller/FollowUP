@@ -1,17 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="100dp">
 
-    <TextView android:id="@+id/text1"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"></LinearLayout>
 
-    <TextView android:id="@+id/text2"
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="180px"
+        android:layout_height="140px"
+        android:layout_marginTop="20px"
+        android:layout_marginLeft="20px"
+        android:contentDescription="TODO"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/firstLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:layout_marginLeft="220px"
+        android:layout_marginTop="30px"
+        android:focusable="false"
+        android:clickable="true"
+        android:textSize="20sp"
+        android:textColor="@android:color/background_dark" />
+
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="200px"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:layout_marginLeft="540px"
+        android:layout_marginTop="30px"
+        android:focusable="false"
+        android:clickable="true"
+        android:textSize="20sp"
+        android:gravity="right"
+        android:textColor="#70DB95"
+        android:background="@android:color/white" />
+
+    <TextView
+        android:id="@+id/contact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loading"
+        android:layout_marginLeft="220px"
+        android:layout_marginTop="90px"
+        android:focusable="false"
+        android:clickable="true"
         android:textSize="16sp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        android:textColor="@android:color/background_dark" />
+
+</RelativeLayout>

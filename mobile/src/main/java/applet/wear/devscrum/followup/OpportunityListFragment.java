@@ -2,6 +2,8 @@ package applet.wear.devscrum.followup;
 
 import android.app.ListFragment;
 import android.os.Bundle;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 
@@ -10,13 +12,12 @@ import java.util.ArrayList;
  */
 public class OpportunityListFragment extends ListFragment {
 
-    ArrayList<Opportunity> mOpportunities;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         getActivity().setTitle("Follow Up");
-        mOpportunities = OpportunityHandler.get(getActivity()).getOpps();
 
     }
 

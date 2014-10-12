@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,15 +24,21 @@ public class LoginActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        /*hax*/
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                .permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         String reqUrl = "https://login.salesforce.com/services/oauth2/authorize?response_type=token&display=touch";
         String consumerKey = "3MVG9xOCXq4ID1uH.95Vnw29mOTYdinLkKU9e75shLNu.5pQqoOaExNJsipGWBTi8w8qdIAqtNX88iaKgoscR";
 
         SharedPreferences sharedPref = this.getSharedPreferences(
                 getString(R.string.preference_file_key), this.MODE_PRIVATE);
         String access_token = sharedPref.getString("SF_ACCESS_TOKEN","");
+
         if (access_token.length() != 0){
-            Intent send_to_main = new Intent(getApplicationContext(), OpportunityDetailActivity.class); //also send along the token
-            startActivity(send_to_main);
+            startActivity(new Intent(getApplicationContext(), OpportunityListActivity.class));
         }
 
         super.onCreate(savedInstanceState);
@@ -87,7 +94,7 @@ public class LoginActivity extends Activity {
                     editor.putString("SF_TOKEN_TYPE",query_params.get("token_type"));
                     editor.commit();
 
-                    Intent send_to_main = new Intent(getApplicationContext(), OpportunityDetailActivity.class); //also send along the token
+                    Intent send_to_main = new Intent(getApplicationContext(), OpportunityListActivity.class); //also send along the token
                     startActivity(send_to_main);
 
                 } catch (UnsupportedEncodingException e) {
