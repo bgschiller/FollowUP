@@ -84,22 +84,13 @@ public class confirmActivity extends Activity implements DelayedConfirmationView
                             List<Node> nodes = result.getNodes();
                             if (nodes.size() > 0) {
                                 nodeId = nodes.get(0).getId();
+                                Wearable.MessageApi.sendMessage(client, nodeId, path, text.getBytes(Charsets.UTF_8));
                             }
                             client.disconnect();
                         }
                     }).start();
 
-                 if (nodeId != null) {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            client.blockingConnect();
-                            Wearable.MessageApi.sendMessage(client, nodeId, path, text.getBytes(Charsets.UTF_8));
-                            client.disconnect();
-                            backToMain();
-                        }
-                    }).start();
-                }
+                    backToMain();
     }
 
     public void backToMain(){
