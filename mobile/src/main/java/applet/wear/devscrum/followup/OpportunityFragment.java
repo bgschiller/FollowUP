@@ -1,7 +1,14 @@
 package applet.wear.devscrum.followup;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +17,7 @@ import android.widget.TextView;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
@@ -19,29 +27,17 @@ import com.google.android.gms.wearable.Wearable;
  */
 public class OpportunityFragment extends Fragment {
     GoogleApiClient mGoogleApiClient;
+    AlertDialog dialog;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         GoogleApiClient.Builder builder = new GoogleApiClient.Builder(getActivity());
         mGoogleApiClient = builder.addApi(Wearable.API).build();
+        ListenService service = new ListenService();
 
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.opportunity_fragment, parent, false);
-        TextView text = (TextView) v.findViewById(R.id.opportunity_title);
-
-        PutDataMapRequest dataMap = PutDataMapRequest.create("/currentOpp");
-        dataMap.getDataMap().putString("opp_name", (String) text.getText());
-
-        PutDataRequest request = dataMap.asPutDataRequest();
-        PendingResult<DataApi.DataItemResult> pendingResult = Wearable.DataApi
-                .putDataItem(mGoogleApiClient, request);
-
-        return v;
     }
 
     @Override
@@ -55,5 +51,5 @@ public class OpportunityFragment extends Fragment {
         super.onStop();
         mGoogleApiClient.disconnect();
     }
-
 }
+
