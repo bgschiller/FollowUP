@@ -89,7 +89,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
             mBound = false;
         }
     }
-
+/*
     public void submitNote(String contents){
         SharedPreferences sharedPref = getSharedPreferences(
                 getString(R.string.preference_file_key), MODE_PRIVATE);
@@ -103,7 +103,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
 
         new No1CurrHttpGet().execute(url);//, //ArrayList<namevaluepair>);
     }
-
+*/
     private ServiceConnection mConnection = new ServiceConnection() {
 
         @Override

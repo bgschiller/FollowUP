@@ -43,7 +43,7 @@ public class OpportunityHandler {
 
     private ArrayList<Opportunity> retrieve_data(){
         String soql_query = URLEncoder.encode("select Id, Name, Amount, " +
-                    "( SELECT Body from NotesAndAttachments where IsNote = true limit 1 ), Image_Name__c, " +
+                    "( SELECT Body from Notes limit 1 ), Image_Name__c, " +
                     "( SELECT Contact.Name FROM OpportunityContactRoles where IsPrimary = true limit 1) " +
                     "from Opportunity " +
                     "where show_in_demo__c = 1");
@@ -54,6 +54,11 @@ public class OpportunityHandler {
         String access_token = sharedPref.getString("SF_ACCESS_TOKEN","");
         String instance_url = sharedPref.getString("SF_INSTANCE_URL","");
         if (access_token.length() == 0 || instance_url.length() == 0){
+            if (access_token.length() > 0) {
+                SharedPreferences.Editor editor = sharedPref.edit();
+                editor.putString("SF_ACCESS_TOKEN", "");
+                editor.commit();
+            }
             mAppContext.startActivity(new Intent(mAppContext, LoginActivity.class));
         }
         String url = instance_url + "/services/data/v31.0/query/?q=" + soql_query;
@@ -102,7 +107,7 @@ public class OpportunityHandler {
             if ( rec.isNull("NotesAndAttachments")){
                 opp.notes = null;
             } else {
-                opp.notes = rec.getJSONObject("NotesAndAttachments")
+                opp.notes = rec.getJSONObject("Notes")
                             .getJSONArray("records")
                             .getJSONObject(0)
                             .getString("Body");
