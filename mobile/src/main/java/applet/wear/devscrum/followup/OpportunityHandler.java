@@ -76,11 +76,12 @@ public class OpportunityHandler {
         Log.i("OpportunityHandler", result);
 
         try {
-            JSONObject res = new JSONObject(result);
-            if (res.has("message")){
-                mAppContext.startActivity(new Intent(mAppContext, LoginActivity.class));
+            if (result.charAt(0) == '['){
+                //error
+                Log.d("OpportunityHandler","Session expired, going to login screen");
                 return null;
             } else {
+                JSONObject res = new JSONObject(result);
                 return process_json(res);
             }
         } catch (JSONException e){
