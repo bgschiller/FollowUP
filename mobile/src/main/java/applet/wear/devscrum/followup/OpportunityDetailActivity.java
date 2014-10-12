@@ -14,6 +14,7 @@ import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -28,10 +29,14 @@ public class OpportunityDetailActivity extends FragmentActivity {
 
     ListenService mService;
     boolean mBound = false;
-
+    public Opportunity opp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        Intent i = getIntent();
+        opp = Opportunity.fromString(i.getStringExtra("OPP"));
+
         setContentView(R.layout.opportunity_fragment);
         FragmentManager fm = getFragmentManager();
         Fragment fragment = fm.findFragmentById(R.id.opportunity_frag_container);
@@ -40,10 +45,10 @@ public class OpportunityDetailActivity extends FragmentActivity {
             fm.beginTransaction()
                     .add(R.id.opportunity_frag_container, fragment)
                     .commit();
+            TextView title = (TextView)findViewById(R.id.opportunity_title);
+            title.setText(opp.mTitle);
         }
 
-
-        OpportunityHandler oh = new OpportunityHandler(this);
 
     }
 

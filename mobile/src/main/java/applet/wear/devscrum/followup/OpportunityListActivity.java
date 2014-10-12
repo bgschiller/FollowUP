@@ -1,13 +1,17 @@
 package applet.wear.devscrum.followup;
 
 import android.app.Activity;
+import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -27,11 +31,29 @@ public class OpportunityListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.opportunity_list);
         mOpportunities = OpportunityHandler.get(this).getOpps();
-        ListView lv = (ListView) findViewById(R.id.listView);
-
-        ListArrayAdapter adapter =
-                new ListArrayAdapter(this, R.layout.list_item, mOpportunities);
-        lv.setAdapter(adapter);
+        if (mOpportunities == null){
+            SharedPreferences sharedPref = this.getSharedPreferences(
+                    getString(R.string.preference_file_key), this.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("SF_ACCESS_TOKEN", "");
+            editor.commit();
+            startActivity(new Intent(this, LoginActivity.class));
+        } else {
+            ListView lv = (ListView) findViewById(R.id.listView);
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position,
+                                        long id) {
+                    Opportunity opp = (Opportunity) parent.getItemAtPosition(position);
+                    Intent intent = new Intent(getApplicationContext(), OpportunityDetailActivity.class);
+                    intent.putExtra("OPP", opp.serialize());
+                    startActivity(intent);
+                }
+            });
+            ListArrayAdapter adapter =
+                    new ListArrayAdapter(this, R.layout.list_item, mOpportunities);
+            lv.setAdapter(adapter);
+        }
 
     }
 
