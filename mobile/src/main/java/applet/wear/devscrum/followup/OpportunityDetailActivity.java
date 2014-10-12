@@ -54,7 +54,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
         return true;
     }
 
-    private class DontCareHttpGet extends AsyncTask {
+    private class No1CurrHttpGet extends AsyncTask {
         @Override
         protected Object doInBackground(Object[] urls) {
             HttpClient httpclient = new DefaultHttpClient();
@@ -87,7 +87,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
             String token = sharedPref.getString("SF_ACCESS_TOKEN","");
             if (! token.equals("")){
 
-                new DontCareHttpGet().execute("https://login.salesforce.com/services/oauth2/revoke?token=" + token);
+                new No1CurrHttpGet().execute("https://login.salesforce.com/services/oauth2/revoke?token=" + token);
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("SF_ACCESS_TOKEN", "");

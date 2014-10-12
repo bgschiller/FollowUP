@@ -112,6 +112,11 @@ public class OpportunityHandler {
                         .getJSONObject("Contact")
                         .getString("Name");
             }
+            if ( ! rec.has("Image_Name__c")){
+                opp.imageName = rec.getString("Image_Name__c");
+            } else {
+                opp.imageName = null;
+            }
             retval.add(opp);
         }
         return retval;
