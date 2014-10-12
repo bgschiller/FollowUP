@@ -2,9 +2,11 @@ package applet.wear.devscrum.followup;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -15,7 +17,9 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -36,8 +40,13 @@ import java.util.ArrayList;
 public class OpportunityDetailActivity extends FragmentActivity {
 
     ListenService mService;
+    MyReceiver myReceiver;
     boolean mBound = false;
     public Opportunity opp;
+    String currentNotes;
+    byte[] datapassed;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +74,18 @@ public class OpportunityDetailActivity extends FragmentActivity {
 
     }
 
+    public void updateNotes(byte[] data){
+        String s = new String(data);
+        EditText et = (EditText) this.findViewById(R.id.notes_body);
+        StringBuilder sb = new StringBuilder();
+        sb.append(currentNotes);
+        sb.append("\n - ");
+        sb.append(s);
+        currentNotes = sb.toString();
+        et.setText(sb.toString());
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,14 +97,20 @@ public class OpportunityDetailActivity extends FragmentActivity {
     @Override
     protected void onStart(){
         super.onStart();
+        myReceiver = new MyReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ListenService.MESSAGE_RECEIVED);
+        registerReceiver(myReceiver, intentFilter);
         Intent intent = new Intent(this, ListenService.class);
         bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
 
     }
 
     @Override
     protected void onStop(){
         super.onStop();
+        unregisterReceiver(myReceiver);
         if (mBound) {
             unbindService(mConnection);
             mBound = false;
@@ -93,6 +120,8 @@ public class OpportunityDetailActivity extends FragmentActivity {
     public void submitNote(String contents){
         //new No1CurrHttpGet().execute//url, //ArrayList<namevaluepair>);
     }
+
+
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
@@ -111,6 +140,19 @@ public class OpportunityDetailActivity extends FragmentActivity {
         }
     };
 
+    private class MyReceiver extends BroadcastReceiver{
+        @Override
+        public void onReceive(Context arg0, Intent arg1) {
+            // TODO Auto-generated method stub
+            showToast("Note Recieved");
+            datapassed = arg1.getByteArrayExtra("Message Received");
+            updateNotes(datapassed);
+        }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
     public class No1CurrHttpGet extends AsyncTask {
         @Override

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
@@ -19,6 +20,8 @@ public class ListenService extends WearableListenerService {
     private static final String DATA_ITEM_RECEIVED_PATH = "/data-item-received";
     private final IBinder mBinder = new ListenBinder();
     private AlertDialog dialog;
+    String nodeId;
+    public static String MESSAGE_RECEIVED = "Message Received";
 
     public class ListenBinder extends Binder {
         ListenService getService() {
@@ -29,16 +32,18 @@ public class ListenService extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         super.onMessageReceived(messageEvent);
-        if (messageEvent.getPath().equals("/message")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-            builder.setTitle("MessageEvent received: " + messageEvent.getData());
-            dialog = builder.create();
-            //do work
-        }
+        nodeId = messageEvent.getSourceNodeId();
+        Intent intent = new Intent();
+        intent.setAction(MESSAGE_RECEIVED);
+        intent.putExtra("messageEvent", messageEvent.getData());
 
         if (Log.isLoggable(TAG, Log.DEBUG)) {
             Log.d(TAG, "Message: " + messageEvent);
         }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
 }

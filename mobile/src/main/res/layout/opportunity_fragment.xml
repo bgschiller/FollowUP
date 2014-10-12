@@ -19,11 +19,12 @@
         android:id="@+id/opportunity_title"
         android:layout_gravity="center_horizontal|top" />
 
-    <TextView
-        android:layout_width="283dp"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="332dp"
-        android:text="New Text"
+        android:text="Notes: "
         android:id="@+id/notes_body"
-        android:layout_gravity="center" />
+        android:gravity="top"
+        android:layout_marginTop="50sp"/>
 
 </FrameLayout>
