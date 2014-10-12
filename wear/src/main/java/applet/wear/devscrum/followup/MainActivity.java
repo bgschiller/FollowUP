@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.wearable.view.CardFragment;
-import android.support.wearable.view.DelayedConfirmationView;
-import android.widget.TextView;
+
 
 
 public class MainActivity extends Activity{

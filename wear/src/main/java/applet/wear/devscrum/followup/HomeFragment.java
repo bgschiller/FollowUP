@@ -86,7 +86,7 @@ public class HomeFragment extends CardFragment {
         cf.addView(layout);
         cardScrollView.addView(cf);
         cardScrollView.setExpansionFactor(1);
-        //cardScrollView.setBackgroundColor(getResources().getColor(R.color.red));
+        cardScrollView.setBackgroundColor(getResources().getColor(R.color.red));
 
         View v = cardScrollView;
         v.setOnClickListener(new View.OnClickListener() {
@@ -127,6 +127,7 @@ public class HomeFragment extends CardFragment {
         Intent confirm_intent = new Intent(getActivity(), confirmActivity.class);
         confirm_intent.putExtra("body", text);
         startActivity(confirm_intent);
+        getActivity().finish();
     }
 
 
