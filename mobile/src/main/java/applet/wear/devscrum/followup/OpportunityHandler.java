@@ -42,11 +42,11 @@ public class OpportunityHandler {
 
 
     private ArrayList<Opportunity> retrieve_data(){
-        String soql_query = URLEncoder.encode("select Id, Name, Amount, latest_wrap_up__c, " +
-                    "latest_wrap_up__r.Follow_Up_Items__c, Image_Name__c, " +
+        String soql_query = URLEncoder.encode("select Id, Name, Amount, " +
+                    "( SELECT Body from NotesAndAttachments where IsNote = true limit 1 ), Image_Name__c, " +
                     "( SELECT Contact.Name FROM OpportunityContactRoles where IsPrimary = true limit 1) " +
                     "from Opportunity " +
-                    "where latest_wrap_up__c != null or show_in_demo__c = 1");
+                    "where show_in_demo__c = 1");
 
 
         SharedPreferences sharedPref = mAppContext.getSharedPreferences(
@@ -99,10 +99,13 @@ public class OpportunityHandler {
             opp.mTitle = rec.getString("Name");
             opp.oId = rec.getString("Id");
             opp.amount = "$" + String.valueOf(rec.getInt("Amount") / 1000) + "K" ;
-            if ( ! rec.has("Follow_Up_Items__c")){
+            if ( rec.isNull("NotesAndAttachments")){
                 opp.notes = null;
             } else {
-                opp.notes = rec.getString("Follow_Up_Items__c");
+                opp.notes = rec.getJSONObject("NotesAndAttachments")
+                            .getJSONArray("records")
+                            .getJSONObject(0)
+                            .getString("Body");
             }
             if( rec.isNull("OpportunityContactRoles")){
                 opp.contact = "";

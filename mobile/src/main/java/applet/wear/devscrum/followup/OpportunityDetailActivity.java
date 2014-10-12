@@ -41,7 +41,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         /*hax*/
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
                 .permitAll().build();
@@ -91,7 +91,17 @@ public class OpportunityDetailActivity extends FragmentActivity {
     }
 
     public void submitNote(String contents){
-        //new No1CurrHttpGet().execute//url, //ArrayList<namevaluepair>);
+        SharedPreferences sharedPref = getSharedPreferences(
+                getString(R.string.preference_file_key), MODE_PRIVATE);
+        String access_token = sharedPref.getString("SF_ACCESS_TOKEN","");
+        String instance_url = sharedPref.getString("SF_INSTANCE_URL","");
+        if (access_token.length() == 0 || instance_url.length() == 0){
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+        String url = instance_url + "/services/data/v31.0/sobjects/Wrap_Up__c/";
+        ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
+
+        new No1CurrHttpGet().execute(url);//, //ArrayList<namevaluepair>);
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
