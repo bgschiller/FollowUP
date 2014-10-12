@@ -17,6 +17,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,9 +31,12 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONStringer;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -70,6 +75,13 @@ public class OpportunityDetailActivity extends FragmentActivity {
                     .commit();
             TextView title = (TextView)findViewById(R.id.opportunity_title);
             title.setText(opp.mTitle);
+            Button btn = (Button) findViewById(R.id.submit_to_salesforce);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    submitNote();
+                }
+            });
         }
 
 
@@ -118,7 +130,7 @@ public class OpportunityDetailActivity extends FragmentActivity {
         }
     }
 
-    public void submitNote(String contents){
+    public void submitNote(){
         SharedPreferences sharedPref = getSharedPreferences(
                 getString(R.string.preference_file_key), MODE_PRIVATE);
         String access_token = sharedPref.getString("SF_ACCESS_TOKEN","");
@@ -126,12 +138,23 @@ public class OpportunityDetailActivity extends FragmentActivity {
         if (access_token.length() == 0 || instance_url.length() == 0){
             startActivity(new Intent(this, LoginActivity.class));
         }
-        String url = instance_url + "/services/data/v31.0/sobjects/Wrap_Up__c/";
+        String url = instance_url + "/services/data/v31.0/sobjects/Note/";
         ArrayList<NameValuePair> params = new ArrayList<NameValuePair>();
-        params.add(new BasicNameValuePair("Body",contents));
-        params.add(new BasicNameValuePair("Title","wrapUp"));
-        params.add(new BasicNameValuePair("RelatedId", opp.oId));
-        new No1CurrHttpGet().execute(url, params);
+        try {
+            JSONStringer vm = new JSONStringer().object()
+                    .key("Body").value(currentNotes)
+                    .key("Title").value("wrapUp Note")
+                    .key("RelatedId").value(opp.oId)
+                    .endObject();
+            StringEntity entity = new StringEntity(vm.toString());
+            new No1CurrHttpGet().execute(url, access_token, entity);
+
+        } catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        } catch (JSONException e){
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -175,14 +198,19 @@ public class OpportunityDetailActivity extends FragmentActivity {
             HttpClient httpclient = new DefaultHttpClient();
             HttpResponse response = null;
             try {
-                if (data.length == 1) {
+                if (data.length < 3) {
                     // Execute HTTP Get Request
                     HttpGet revoke_request = new HttpGet((String) data[0]);
+                    if (data.length == 2){
+                        revoke_request.setHeader("Authentication","Bearer " + data[1]);
+                    }
                     response = httpclient.execute(revoke_request);
-                } else if (data.length == 2) {
-                    HttpPost post_request = new HttpPost((String) data[0]);
-                    post_request.setEntity(new UrlEncodedFormEntity((ArrayList<NameValuePair>) data[1]));
-                    response = httpclient.execute((post_request));
+                } else if (data.length == 3) {
+                        HttpPost post_request = new HttpPost((String) data[0]);
+                        post_request.setHeader("Authorization", "Bearer " + data[1]);
+                        post_request.setHeader("Content-Type","application/json");
+                        post_request.setEntity((StringEntity) data[2]);
+                        response = httpclient.execute((post_request));
                 }
                 HttpEntity entity = response.getEntity();
                 Log.i("No1Curr, but", EntityUtils.toString(entity, "utf-8"));
