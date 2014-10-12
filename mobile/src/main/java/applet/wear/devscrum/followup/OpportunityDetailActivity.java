@@ -155,6 +155,9 @@ public class OpportunityDetailActivity extends FragmentActivity {
             e.printStackTrace();
         }
 
+        showToast("Notes Successfully Submitted!");
+        startActivity(new Intent(this, OpportunityListActivity.class));
+
     }
 
 
