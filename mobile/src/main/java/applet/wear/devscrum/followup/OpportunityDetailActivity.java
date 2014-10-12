@@ -12,17 +12,23 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 
 
 public class OpportunityDetailActivity extends FragmentActivity {
@@ -62,23 +68,25 @@ public class OpportunityDetailActivity extends FragmentActivity {
 
     private class No1CurrHttpGet extends AsyncTask {
         @Override
-        protected Object doInBackground(Object[] urls) {
+        protected Object doInBackground(Object[] data) {
             HttpClient httpclient = new DefaultHttpClient();
-
-
             try {
-                // Execute HTTP Post Request
-                for (Object url : urls) {
-                    HttpGet revoke_request = new HttpGet((String) url);
+                if (data.length == 1) {
+                    // Execute HTTP Get Request
+                    HttpGet revoke_request = new HttpGet((String) data[0]);
                     HttpResponse response = httpclient.execute(revoke_request);
+                    Log.i("No1Curr", response.toString());
+                } else if (data.length == 2) {
+                    HttpPost post_request = new HttpPost((String) data[0]);
+                    post_request.setEntity(new UrlEncodedFormEntity((ArrayList<NameValuePair>) data[1]));
+                    HttpResponse response = httpclient.execute((post_request));
                 }
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
+            } catch (java.io.IOException e) {
                 e.printStackTrace();
             }
-            return null;
+        return null;
         }
+
     }
 
     @Override
@@ -124,6 +132,9 @@ public class OpportunityDetailActivity extends FragmentActivity {
         }
     }
 
+    public void submitNote(String contents){
+        //new No1CurrHttpGet().execute//url, //ArrayList<namevaluepair>);
+    }
 
     private ServiceConnection mConnection = new ServiceConnection() {
 
