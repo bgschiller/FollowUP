@@ -46,7 +46,7 @@ public class confirmActivity extends Activity implements DelayedConfirmationView
         mDelayedView = (DelayedConfirmationView) findViewById(R.id.delayed_confirm);
         mDelayedView.setListener(this);
         // Two seconds to cancel the action
-        mDelayedView.setTotalTimeMs(2000);
+        mDelayedView.setTotalTimeMs(5000);
         // Start the timer
         mDelayedView.start();
     }

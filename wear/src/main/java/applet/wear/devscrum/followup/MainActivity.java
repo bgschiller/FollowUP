@@ -14,7 +14,7 @@ public class MainActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_fragment_layout);
 
-        HomeFragment frags = HomeFragment.newInstance("tap to save notes", "tap to save notes", R.drawable.ic_launcher);
+        HomeFragment frags = HomeFragment.newInstance("  Tap to Take Note", "", R.drawable.ic_launcher);
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction trans = fm.beginTransaction();

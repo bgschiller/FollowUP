@@ -62,8 +62,8 @@ public class HomeFragment extends CardFragment {
         Button action = new Button(getActivity());
         action.setBackground(getResources().getDrawable(R.drawable.ic_wrap_title));
         LinearLayout.LayoutParams button_params = new LinearLayout.LayoutParams(
-                200,
-                100);
+                150,
+                50);
         button_params.gravity = Gravity.CENTER;
         button_params.setMargins(0, 40, 0, 0);
 
@@ -71,6 +71,7 @@ public class HomeFragment extends CardFragment {
         action.setLayoutParams(button_params);
 
         TextView action_desc = new TextView(getActivity());
+
         LinearLayout.LayoutParams text_params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -86,7 +87,7 @@ public class HomeFragment extends CardFragment {
         cf.addView(layout);
         cardScrollView.addView(cf);
         cardScrollView.setExpansionFactor(1);
-        cardScrollView.setBackgroundColor(getResources().getColor(R.color.red));
+        cardScrollView.setBackgroundColor(getResources().getColor(R.color.white));
 
         View v = cardScrollView;
         v.setOnClickListener(new View.OnClickListener() {
