@@ -29,6 +29,7 @@ public class LoginActivity extends Activity {
         SharedPreferences sharedPref = this.getSharedPreferences(
                 getString(R.string.preference_file_key), this.MODE_PRIVATE);
         String access_token = sharedPref.getString("SF_ACCESS_TOKEN","");
+
         if (access_token.length() != 0){
             Intent send_to_main = new Intent(getApplicationContext(), OpportunityDetailActivity.class); //also send along the token
             startActivity(send_to_main);
