@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -44,24 +45,28 @@ public class OpportunityListActivity extends Activity {
         }
 
         public View getView(int position, View convertView, ViewGroup parent) {
-            LinearLayout oppView;
+            RelativeLayout oppView;
             Opportunity opp = getItem(position);
             Log.d("__________-------------", opp.mTitle);
             if (convertView == null) {
-                oppView = new LinearLayout(getContext());
+                oppView = new RelativeLayout(getContext());
                 String inflater = Context.LAYOUT_INFLATER_SERVICE;
                 LayoutInflater vi;
                 vi = (LayoutInflater)getContext().getSystemService(inflater);
                 vi.inflate(resource, oppView, true);
             }
             else {
-                oppView = (LinearLayout) convertView;
+                oppView = (RelativeLayout) convertView;
             }
 
+            ImageView image = (ImageView)oppView.findViewById(R.id.icon);
             TextView oppText = (TextView)oppView.findViewById(R.id.firstLine);
             TextView amountText = (TextView)oppView.findViewById(R.id.amount);
+            TextView contactText = (TextView)oppView.findViewById(R.id.contact);
+            image.setImageDrawable(getResources().getDrawable(R.drawable.salesforcereal));
             oppText.setText(opp.mTitle);
             amountText.setText(opp.amount);
+            contactText.setText(opp.contact);
 
             return oppView;
 
